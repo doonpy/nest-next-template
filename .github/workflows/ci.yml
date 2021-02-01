@@ -25,15 +25,16 @@ jobs:
 
       - name: Cache node modules
         uses: actions/cache@v2
+        id: cache-node-modules
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys:
-            ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}
+          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
 
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install
 
       - name: Lint
@@ -55,24 +56,27 @@ jobs:
 
       - name: Cache node modules
         uses: actions/cache@v2
+        id: cache-node-modules
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys:
-            ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}
+          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
 
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install
 
       - name: Check type
         run: yarn type-check
 
   build:
-    needs: check-type
+    needs: [lint, check-type]
     runs-on: ubuntu-latest
     if: "!contains(github.event.commits[0].message, '[skip-ci]')"
+    env:
+      cache-dir: 'dist/views/cache'
 
     steps:
       - uses: actions/checkout@v2
@@ -86,18 +90,21 @@ jobs:
 
       - name: Cache node modules
         uses: actions/cache@v2
+        id: cache-node-modules
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys:
-            ${{ runner.os }}-${{ env.cache-name }}-${{ secrets.CACHE_VERSION }}
+          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
 
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install
 
       - name: Build
         env:
           NODE_ENV: production
-        run: yarn build
+        run: |
+          npx next telemetry disable
+          yarn build

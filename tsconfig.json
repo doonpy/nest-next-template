@@ -23,17 +23,7 @@
     "inlineSourceMap": true,
     "typeRoots": [
       "./src/types",
-      "node_modules/@types",
+      "node_modules/@types"
     ]
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "../types/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "./src/views/tsconfig.json",
-    "./src/views/next-env.d.ts"
-  ]
+  }
 }

@@ -29,8 +29,11 @@ export class DatabaseFactory {
       password,
       database,
       entities: [__dirname + '/**/*/entities/*{.ts,.js}'],
+      logging: nodeEnv !== 'production' ? ['error', 'query'] : ['error'],
       synchronize: nodeEnv !== 'production',
-      autoLoadEntities: true
+      autoLoadEntities: true,
+      timezone: '+00:00',
+      charset: 'utf8mb4_unicode_ci'
     };
   }
 }
