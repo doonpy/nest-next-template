@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "strict": true,
     "lib": [
       "dom",
-      "dom.iterable"
+      "dom.iterable",
+      "esnext"
     ],
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -17,23 +20,14 @@
     "incremental": true,
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "noEmit": false,
     "allowJs": false,
-    "jsx": "preserve",
     "inlineSourceMap": true,
     "typeRoots": [
       "./src/types",
-      "node_modules/@types",
+      "node_modules/@types"
     ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "../types/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "./src/views/tsconfig.json",
-    "./src/views/next-env.d.ts"
+    "./src"
   ]
 }

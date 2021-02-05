@@ -42,6 +42,7 @@ module.exports = {
       }
     ],
     'no-console': 'error',
+    'no-case-declarations': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off' // TODO: should remove this rule after refactor render module.
   }

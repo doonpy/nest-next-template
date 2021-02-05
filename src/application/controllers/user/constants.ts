@@ -14,7 +14,3 @@ export const UserTemplates = {
   INDEX: USER_VIEW_ROOT_TEMPLATE,
   CREATE: `${USER_VIEW_ROOT_TEMPLATE}/create`
 };
-
-export const UserApiPaths = {
-  CREATE: 'create'
-};

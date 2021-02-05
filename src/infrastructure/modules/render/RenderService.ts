@@ -2,6 +2,7 @@ import { HttpServer, InternalServerErrorException } from '@nestjs/common';
 import { IncomingMessage } from 'http';
 import { ParsedUrlQuery } from 'querystring';
 
+import { API_PATH_PREFIX } from '../../../application/controllers/constant';
 import { isInternalUrl } from './next-utils';
 import {
   ErrorHandler,
@@ -205,5 +206,13 @@ export class RenderService {
     const basePath = baseDir ? baseDir : '';
 
     return `${basePath}/${view}`;
+  }
+
+  public isApiUrl(url: string | null): boolean {
+    if (!url) {
+      return false;
+    }
+
+    return new RegExp(`^/${API_PATH_PREFIX}`).test(url);
   }
 }

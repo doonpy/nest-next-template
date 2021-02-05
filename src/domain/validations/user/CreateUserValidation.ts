@@ -8,8 +8,8 @@ export default class CreateUserValidation {
   private readonly schema: ObjectSchema;
 
   constructor() {
-    this.schema = Joi.object<CreateUser>({
-      name: Joi.string().alphanum().min(3).max(30).required().messages({
+    this.schema = Joi.object<CreateUserInput>({
+      name: Joi.string().min(3).max(30).required().messages({
         'string.base': new RequiredNameException().getMessage()
         // TODO: Another validation messages
       }),
@@ -17,7 +17,7 @@ export default class CreateUserValidation {
     });
   }
 
-  public validate(value: CreateUser): void {
+  public validate(value: CreateUserInput): void {
     const { error } = this.schema.validate(value);
     if (error) {
       throw new BadRequestException(error.message);

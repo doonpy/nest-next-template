@@ -22,6 +22,18 @@ export class RenderFilter implements ExceptionFilter {
     const response = ctx.getResponse();
 
     if (response && request) {
+      const { pathname, query } = parseUrl(request.url, true);
+
+      // let next handle the error
+      // it's possible that the err doesn't contain a status code, if this is the case treat
+      // it as an internal server error
+      response.statusCode = err && err.status ? err.status : 500;
+
+      // when error from server request
+      if (this.service.isApiUrl(pathname)) {
+        return response.json(err.response);
+      }
+
       const requestHandler = this.service.getRequestHandler();
       const errorRenderer = this.service.getErrorRenderer();
 
@@ -38,11 +50,6 @@ export class RenderFilter implements ExceptionFilter {
           return requestHandler(request, response);
         }
 
-        // let next handle the error
-        // it's possible that the err doesn't contain a status code, if this is the case treat
-        // it as an internal server error
-        response.statusCode = err && err.status ? err.status : 500;
-        const { pathname, query } = parseUrl(request.url, true);
         const errorHandler = this.service.getErrorHandler();
         if (errorHandler) {
           await errorHandler(err, request, response, pathname, query);

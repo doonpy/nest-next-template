@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import UserListItemConverter from '../../../converter/UserListItemConverter';
 import UserRepository from '../../../infrastructure/repository/UserRepository';
 import UserEntity from '../../entities/user/UserEntity';
 import GetManyUserQueriesModel from '../../models/user/GetManyUserQueriesModel';
@@ -8,10 +9,11 @@ import GetManyUserQueriesModel from '../../models/user/GetManyUserQueriesModel';
 export default class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async create(value: CreateUser): Promise<UserEntity> {
+  public async create(value: CreateUserInput): Promise<UserListItem> {
     const entity = this.userRepository.createEntity(value);
+    const createdUser = await this.userRepository.save(entity);
 
-    return this.userRepository.save(entity);
+    return new UserListItemConverter(createdUser).convert();
   }
 
   public async getMany(queryModel: GetManyUserQueriesModel): Promise<UserEntity[]> {

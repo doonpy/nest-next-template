@@ -11,7 +11,7 @@ export default class UserRepository {
     @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
   ) {}
 
-  public createEntity(value: CreateUser): UserEntity {
+  public createEntity(value: CreateUserInput): UserEntity {
     return this.userRepository.create(value);
   }
 

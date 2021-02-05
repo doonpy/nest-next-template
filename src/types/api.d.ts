@@ -1,6 +1,7 @@
 declare global {
-  export interface CommonResponse {
+  export interface ApiResponse<Data> {
     statusCode: number;
+    data?: Data;
   }
 
   export interface LimitQuery {
