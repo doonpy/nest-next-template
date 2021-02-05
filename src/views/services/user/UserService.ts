@@ -20,12 +20,26 @@ export default class UserService {
     return this.instance;
   }
 
-  public async fetchUsers(limit = 1, offset?: number, keyword?: string): Promise<GetManyUsers> {
+  public async fetchUsers(
+    limit?: number,
+    offset?: number,
+    keyword?: string
+  ): Promise<ApiResponse<GetManyUsersResponse>> {
     const queries = getQueriesForGetMany(limit, offset, keyword);
     const configs: AxiosRequestConfig = {
-      url: generateUrl(UserApiEndpoints.FETCH_USERS, queries)
+      url: generateUrl(UserApiEndpoints.ROOT, queries)
     };
 
-    return this.requestService.send<GetManyUsers>(configs);
+    return this.requestService.send<ApiResponse<GetManyUsersResponse>>(configs);
+  }
+
+  public async createUser(user: CreateUserInput): Promise<ApiResponse<CreateUserResponse>> {
+    const configs: AxiosRequestConfig = {
+      url: UserApiEndpoints.ROOT,
+      method: 'POST',
+      data: user
+    };
+
+    return this.requestService.send<ApiResponse<CreateUserResponse>>(configs);
   }
 }

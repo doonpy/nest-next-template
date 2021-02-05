@@ -24,3 +24,11 @@ export function getQueriesForGetMany(
 
   return queries;
 }
+
+export function errorHandler(error: any): void {
+  if (error.isAxiosError) {
+    alert(error.response.data.message || '');
+  } else {
+    alert(error.message);
+  }
+}

@@ -13,7 +13,8 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/server/main",
     "lint": "eslint --fix --max-warnings=0 --ext .ts,.tsx src",
-    "type-check": "tsc"
+    "type-check": "tsc -p tsconfig.type-check.json",
+    "type-check:dev": "tsc -w"
   },
   "engines": {
     "node": "^14.15.x",

@@ -1,3 +1,4 @@
+import { InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -19,7 +20,11 @@ const enableCors = (app: NestExpressApplication) => {
 };
 
 (async () => {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  enableCors(app);
-  await app.listen(3000);
+  try {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    enableCors(app);
+    await app.listen(3000);
+  } catch (error) {
+    throw new InternalServerErrorException(error);
+  }
 })();

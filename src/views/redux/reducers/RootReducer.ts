@@ -1,4 +1,4 @@
-import { CombinedState, combineReducers, Reducer, ReducersMapObject } from 'redux';
+import { CombinedState, combineReducers, Reducer } from 'redux';
 
 import AbstractRootReducer from './AbstractRootReducer';
 import PageReducer from './PageReducer';
@@ -21,7 +21,7 @@ export default class RootReducer {
   }
 
   public getReducers(): Reducer<CombinedState<RootState>, CustomAction> {
-    const reducers: ReducersMapObject<RootState, any> = {};
+    const reducers: any = {};
     for (const instance of this.reducerInstances) {
       reducers[instance.getReducerKey()] = instance.reducer.bind(instance);
     }

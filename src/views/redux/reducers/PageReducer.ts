@@ -25,11 +25,13 @@ export default class PageReducer extends AbstractRootReducer<PageState> {
 
   public reducer(
     state: PageState = this.initialState,
-    action: CustomAction<PageActionTypes, PageState>
+    action: CustomAction<PageActionTypes, PageState | RootState>
   ): PageState {
     switch (action.type) {
       case HYDRATE:
-        return this.hydrateHandler(state, action.payload);
+        const payload = action.payload as RootState;
+
+        return this.hydrateHandler(state, payload[this.getReducerKey()]);
       case PageActionTypes.SET_PAGE_STATE:
         return { ...state, ...action.payload };
       default:

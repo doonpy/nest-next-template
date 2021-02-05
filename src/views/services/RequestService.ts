@@ -26,13 +26,9 @@ export default class RequestService {
   }
 
   public async send<T = any>(configs: AxiosRequestConfig): Promise<T> {
-    try {
-      const res = await axios.request<T>({ ...this.configs, ...configs });
+    const res = await axios.request<T>({ ...this.configs, ...configs });
 
-      return res.data;
-    } catch (error) {
-      return error.response;
-    }
+    return res.data;
   }
 
   public cancelPreviousRequest(): void {

@@ -30,13 +30,14 @@ export default class UsersReducer extends AbstractRootReducer<UsersState> {
 
   public reducer(
     state: UsersState = this.initialState,
-    action: CustomAction<UsersActionTypes, UsersState>
+    action: CustomAction<UsersActionTypes, UsersState | RootState>
   ): UsersState {
     switch (action.type) {
       case HYDRATE:
-        return this.hydrateHandler(state, action.payload);
-      case UsersActionTypes.FETCH_USERS:
-        return this.fetchUsers(state, action.payload);
+        const payload = action.payload as RootState;
+        return this.hydrateHandler(state, payload[this.getReducerKey()]);
+      case UsersActionTypes.FETCH:
+        return this.fetchUsers(state, action.payload as UsersState);
       default:
         return { ...state };
     }
