@@ -1,25 +1,19 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import Joi, { ObjectSchema } from 'joi';
+import { Injectable } from '@nestjs/common';
+import Joi from 'joi';
 
 import LimitNotIntegerException from '../../exceptions/LimitNotIntegerException';
+import AbstractValidation from '../AbstractValidation';
 
 @Injectable()
-export class GetManyUserQueriesValidation {
-  private readonly schema: ObjectSchema;
-
+export class GetManyUserQueriesValidation extends AbstractValidation<GetManyUserQueries> {
   constructor() {
-    this.schema = Joi.object<GetManyUserQueries>({
-      limit: Joi.number().optional().integer().min(0).messages({
-        'number.integer': new LimitNotIntegerException().getMessage()
-        // TODO: Another validation messages
+    super(
+      Joi.object<GetManyUserQueries>({
+        limit: Joi.number().optional().integer().min(0).messages({
+          'number.integer': new LimitNotIntegerException().getMessage()
+          // TODO: Another validation messages
+        })
       })
-    });
-  }
-
-  public validate(value: GetManyUserQueries): void {
-    const { error } = this.schema.validate(value);
-    if (error) {
-      throw new BadRequestException(error.message);
-    }
+    );
   }
 }

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
 
 export const API_PREFIX = 'api/v1';
 
@@ -25,8 +25,14 @@ export default class RequestService {
     this.configs = { ...this.configs, ...configs };
   }
 
-  public async send<T = any>(configs: AxiosRequestConfig): Promise<T> {
-    const res = await axios.request<T>({ ...this.configs, ...configs });
+  public async send<T>(configs: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    const res = await axios.request<T, AxiosResponse<ApiResponse<T>>>({
+      ...this.configs,
+      ...configs
+    });
+    if (/^[45].*/.test(res.data.statusCode.toString())) {
+      throw res.data;
+    }
 
     return res.data;
   }
