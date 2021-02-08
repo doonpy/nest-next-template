@@ -29,7 +29,6 @@ export default class RenderModule {
           provide: RenderService,
           useFactory: (nestHost: HttpAdapterHost): RenderService => {
             return RenderService.init(
-              {},
               next.getRequestHandler(),
               next.render.bind(next),
               next.renderError.bind(next),
