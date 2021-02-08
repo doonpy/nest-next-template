@@ -1,0 +1,20 @@
+{
+  "name": "Config file for Review app on Heroku",
+  "description": "Do not modify this file if you don't no what are you doing",
+  "addons": [
+    {
+      "plan": "jawsdb:kitefin"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "HEROKU_PR_NUMBER": {
+      "required": true
+    },
+    "MYSQL_CONNECTION_TYPE": "1"
+  }
+}

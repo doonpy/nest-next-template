@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import Application from './infrastructure/config/Application';
-import { getEnvFilePath } from './infrastructure/config/config-utils';
-import MySql from './infrastructure/config/MySql';
+import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
+import { getEnvFilePath } from './infrastructure/configs/config-utils';
+import MySqlConfig from './infrastructure/configs/MySqlConfig';
 import Database from './infrastructure/database/Database';
 import RenderModule from './infrastructure/modules/render/RenderModule';
 import UserModule from './infrastructure/modules/UserModule';
@@ -13,7 +13,7 @@ import UserModule from './infrastructure/modules/UserModule';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: getEnvFilePath(),
-      load: [Application.getConfig, MySql.getConfig]
+      load: [ApplicationConfig.getConfig, MySqlConfig.getConfig]
     }),
     Database,
     RenderModule.forRootAsync(),

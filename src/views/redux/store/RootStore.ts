@@ -22,11 +22,19 @@ export default class RootStore {
     return this.instance;
   }
 
+  private getEnhancers() {
+    if (process.env.NODE_ENV !== 'production') {
+      return composeWithDevTools(applyMiddleware(thunk));
+    } else {
+      return applyMiddleware(thunk);
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private static makeStore(context: Context) {
     return createStore<RootState, CustomAction, any, any>(
       RootReducer.getInstance().getReducers(),
-      composeWithDevTools(applyMiddleware(thunk))
+      RootStore.getInstance().getEnhancers()
     );
   }
 

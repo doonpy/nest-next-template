@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/server/main",
+    "start:prod": "node dist/main",
     "lint": "eslint --fix --max-warnings=0 --ext .ts,.tsx src",
     "type-check": "tsc -p tsconfig.type-check.json",
     "type-check:dev": "tsc -w"
@@ -20,6 +20,9 @@
     "node": "^14.15.x",
     "yarn": "^1.22.x"
   },
+  "cacheDirectories": [
+    "dist/views/cache"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
@@ -43,6 +46,8 @@
     "mysql2": "^2.2.5",
     "nest-next-customize": "^9.3.0",
     "next": "^10.0.5",
+    "next-compose-plugins": "^2.2.1",
+    "next-images": "^1.7.0",
     "next-redux-wrapper": "^6.0.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -72,8 +77,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "next-compose-plugins": "^2.2.1",
-    "next-images": "^1.7.0",
     "prettier": "^2.1.2",
     "ts-loader": "^8.0.8",
     "ts-node": "^9.0.0",
