@@ -102,6 +102,16 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: yarn install
 
+      - name: Cache node build artifact
+        uses: actions/cache@v2
+        id: cache-build-artifact
+        env:
+          cache-name: cache-build-artifact
+        with:
+          path: '**/dist'
+          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
+
       - name: Build
         env:
           NODE_ENV: production
