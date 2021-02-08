@@ -1,36 +1,12 @@
-import { HttpServer, InternalServerErrorException } from '@nestjs/common';
+import { HttpServer, HttpStatus, InternalServerErrorException } from '@nestjs/common';
+import { Response } from 'express';
 import { IncomingMessage } from 'http';
 import { ParsedUrlQuery } from 'querystring';
 
 import { API_PATH_PREFIX } from '../../../application/controllers/constant';
 import { isInternalUrl } from './next-utils';
-import {
-  ErrorHandler,
-  ErrorRenderer,
-  RenderableResponse,
-  Renderer,
-  RendererConfig,
-  RequestHandler
-} from './types';
 
 export class RenderService {
-  public static init(
-    config: Partial<RendererConfig>,
-    handler: RequestHandler,
-    renderer: Renderer,
-    errorRenderer: ErrorRenderer,
-    server: HttpServer
-  ): RenderService {
-    const self = new RenderService();
-    self.mergeConfig(config);
-    self.setRequestHandler(handler);
-    self.setRenderer(renderer);
-    self.setErrorRenderer(errorRenderer);
-    self.bindHttpServer(server);
-
-    return self;
-  }
-
   private initialized = false;
   private requestHandler?: RequestHandler;
   private renderer?: Renderer;
@@ -41,16 +17,19 @@ export class RenderService {
     viewsDir: ''
   };
 
-  /**
-   * Merge the default config with the config obj passed to method
-   */
-  public mergeConfig(config: Partial<RendererConfig>): void {
-    if (typeof config.dev === 'boolean') {
-      this.config.dev = config.dev;
-    }
-    if (typeof config.viewsDir === 'string' || config.viewsDir === null) {
-      this.config.viewsDir = config.viewsDir;
-    }
+  public static init(
+    handler: RequestHandler,
+    renderer: Renderer,
+    errorRenderer: ErrorRenderer,
+    server: HttpServer
+  ): RenderService {
+    const self = new RenderService();
+    self.setRequestHandler(handler);
+    self.setRenderer(renderer);
+    self.setErrorRenderer(errorRenderer);
+    self.bindHttpServer(server);
+
+    return self;
   }
 
   /**
@@ -214,5 +193,9 @@ export class RenderService {
     }
 
     return new RegExp(`^/${API_PATH_PREFIX}`).test(url);
+  }
+
+  public handleApiException(error: any, response: Response): void {
+    response.status(HttpStatus.OK).json(error.response);
   }
 }

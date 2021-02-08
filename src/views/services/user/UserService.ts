@@ -30,7 +30,7 @@ export default class UserService {
       url: generateUrl(UserApiEndpoints.ROOT, queries)
     };
 
-    return this.requestService.send<ApiResponse<GetManyUsersResponse>>(configs);
+    return this.requestService.send<GetManyUsersResponse>(configs);
   }
 
   public async createUser(user: CreateUserInput): Promise<ApiResponse<CreateUserResponse>> {
@@ -40,6 +40,6 @@ export default class UserService {
       data: user
     };
 
-    return this.requestService.send<ApiResponse<CreateUserResponse>>(configs);
+    return this.requestService.send<CreateUserResponse>(configs);
   }
 }

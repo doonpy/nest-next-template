@@ -2,7 +2,6 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/commo
 import { parse as parseUrl } from 'url';
 
 import { RenderService } from './RenderService';
-import { ErrorResponse } from './types';
 
 @Catch()
 export class RenderFilter implements ExceptionFilter {
@@ -31,7 +30,7 @@ export class RenderFilter implements ExceptionFilter {
 
       // when error from server request
       if (this.service.isApiUrl(pathname)) {
-        return response.json(err.response);
+        return this.service.handleApiException(err, response);
       }
 
       const requestHandler = this.service.getRequestHandler();
