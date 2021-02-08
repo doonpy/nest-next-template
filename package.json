@@ -1,13 +1,12 @@
 {
   "name": "nest-next-template",
   "version": "0.0.1",
-  "description": "",
+  "description": "Nest + Next template",
   "author": "Poon Nguyen",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build & next build src/views",
+    "build": "sh build/build.sh",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -20,9 +19,6 @@
     "node": "^14.15.x",
     "yarn": "^1.22.x"
   },
-  "cacheDirectories": [
-    "dist/views/cache"
-  ],
   "browserslist": {
     "production": [
       ">0.2%",
