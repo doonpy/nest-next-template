@@ -4,14 +4,12 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import AppModule from './AppModule';
-import Application from './infrastructure/config/Application';
+import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
 
-const enableCors = (app: NestExpressApplication) => {
-  const configService = app.get(ConfigService);
-  const nodeEnv = configService.get<string>(Application.getInstance().getNodeEnvProp());
+const enableCors = (app: NestExpressApplication, nodeEnv: string, port: number) => {
   if (nodeEnv === 'production') {
     app.enableCors({
-      origin: [/^http:\/\/localhost:3000$/],
+      origin: [new RegExp(`^http://localhost:${port}$/`)],
       optionsSuccessStatus: 200
     });
   } else {
@@ -21,9 +19,13 @@ const enableCors = (app: NestExpressApplication) => {
 
 (async () => {
   try {
+    const applicationConfig = ApplicationConfig.getInstance();
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    enableCors(app);
-    await app.listen(3000);
+    const configService = app.get(ConfigService);
+    const port = parseInt(configService.get<string>(applicationConfig.getPortProp()) ?? '3000');
+    const nodeEnv = configService.get<string>(applicationConfig.getNodeEnvProp()) ?? '';
+    enableCors(app, nodeEnv, port);
+    await app.listen(port);
   } catch (error) {
     throw new InternalServerErrorException(error);
   }
