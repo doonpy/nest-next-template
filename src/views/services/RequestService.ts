@@ -30,7 +30,7 @@ export default class RequestService {
       ...this.configs,
       ...configs
     });
-    if (res.data.statusCode !== 200) {
+    if (/^[45].*/.test(res.data.statusCode.toString())) {
       throw res.data;
     }
 
