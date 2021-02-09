@@ -8,7 +8,6 @@ import morgan from 'morgan';
 
 import AppModule from './AppModule';
 import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
-import { isInternalUrl } from './infrastructure/modules/render/next-utils';
 
 const enableCors = (app: NestExpressApplication, nodeEnv: string, port: number) => {
   if (nodeEnv === 'production') {
@@ -32,13 +31,7 @@ const bindRequestLogger = (app: NestExpressApplication) => {
       chalk.white(tokens.res(req, res, 'content-length')),
       `${chalk.green(`+${tokens['response-time'](req, res)}ms`)}`
     ].join(' ');
-  app.use(
-    morgan(logFormat, {
-      skip(req) {
-        return isInternalUrl(req.url);
-      }
-    })
-  );
+  app.use(morgan(logFormat));
 };
 
 (async () => {

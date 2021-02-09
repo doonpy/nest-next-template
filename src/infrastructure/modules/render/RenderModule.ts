@@ -1,12 +1,13 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ApplicationConfig, HttpAdapterHost } from '@nestjs/core';
 import Server from 'next';
 
-import { RenderFilter } from './RenderFilter';
-import { RenderService } from './RenderService';
+import RenderFilter from './RenderFilter';
+import RenderService from './RenderService';
 
 const CLIENT_ROOT_PATH = './src/views';
 
+@Global()
 @Module({
   providers: [RenderService]
 })
@@ -28,12 +29,11 @@ export default class RenderModule {
           inject: [HttpAdapterHost],
           provide: RenderService,
           useFactory: (nestHost: HttpAdapterHost): RenderService => {
-            return RenderService.init(
-              next.getRequestHandler(),
-              next.render.bind(next),
-              next.renderError.bind(next),
-              nestHost.httpAdapter
-            );
+            const service = RenderService.getInstance();
+            service.setNextServer(next);
+            service.setHttpServer(nestHost.httpAdapter);
+
+            return service;
           }
         },
         {

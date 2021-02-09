@@ -1,18 +1,15 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 
-import { USER_VIEW_ROOT_PATH, UserTemplates, UserViewPaths } from './constants';
+import RenderService from '../../../infrastructure/modules/render/RenderService';
+import { USER_VIEW_ROOT_PATH } from './constants';
 
 @Controller(USER_VIEW_ROOT_PATH)
 export default class UserView {
-  @Get()
-  @Render(USER_VIEW_ROOT_PATH)
-  public getMany(): void {
-    return;
-  }
+  constructor(private readonly renderService: RenderService) {}
 
-  @Get(UserViewPaths.CREATE)
-  @Render(UserTemplates.CREATE)
-  public getCreate(): void {
-    return;
+  @Get()
+  public getMany(@Req() req: Request, @Res() res: Response) {
+    return this.renderService.render(req, res);
   }
 }
