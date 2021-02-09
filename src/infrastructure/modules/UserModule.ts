@@ -5,6 +5,7 @@ import UserApi from '../../application/controllers/user/UserApi';
 import UserView from '../../application/controllers/user/UserView';
 import CreateUserUseCase from '../../application/use-cases/user/CreateUserUseCase';
 import GetManyUsersUseCase from '../../application/use-cases/user/GetManyUsersUseCase';
+import UserListItemConverter from '../../converter/UserListItemConverter';
 import UserEntity from '../../domain/entities/user/UserEntity';
 import UserService from '../../domain/services/user/UserService';
 import CreateUserValidation from '../../domain/validations/user/CreateUserValidation';
@@ -19,7 +20,8 @@ import UserRepository from '../repository/UserRepository';
     CreateUserUseCase,
     CreateUserValidation,
     GetManyUsersUseCase,
-    GetManyUserQueriesValidation
+    GetManyUserQueriesValidation,
+    UserListItemConverter
   ],
   controllers: [UserApi, UserView]
 })

@@ -12,7 +12,8 @@ export default class GetManyUsersUseCase extends AbstractUseCase<GetManyUsersRes
 
   constructor(
     private readonly userService: UserService,
-    private readonly getManyValidation: GetManyUserQueriesValidation
+    private readonly getManyValidation: GetManyUserQueriesValidation,
+    private readonly userListItemConverter: UserListItemConverter
   ) {
     super();
   }
@@ -24,7 +25,7 @@ export default class GetManyUsersUseCase extends AbstractUseCase<GetManyUsersRes
 
   protected async prepareResponse(): Promise<void> {
     const users = (await this.userService.getMany(this.queryModel)).map((user) =>
-      new UserListItemConverter(user).convert()
+      this.userListItemConverter.convert(user)
     );
     this.setData({ users });
     this.setStatusCode(HttpStatus.OK);

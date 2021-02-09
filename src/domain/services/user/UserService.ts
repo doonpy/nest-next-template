@@ -7,13 +7,16 @@ import GetManyUserQueriesModel from '../../models/user/GetManyUserQueriesModel';
 
 @Injectable()
 export default class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly userListItemConverter: UserListItemConverter
+  ) {}
 
   public async create(value: CreateUserInput): Promise<UserListItem> {
     const entity = this.userRepository.createEntity(value);
     const createdUser = await this.userRepository.save(entity);
 
-    return new UserListItemConverter(createdUser).convert();
+    return this.userListItemConverter.convert(createdUser);
   }
 
   public async getMany(queryModel: GetManyUserQueriesModel): Promise<UserEntity[]> {

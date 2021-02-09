@@ -1,13 +1,14 @@
+import { Injectable } from '@nestjs/common';
+
 import UserEntity from '../domain/entities/user/UserEntity';
 
+@Injectable()
 export default class UserListItemConverter {
-  constructor(private readonly user: UserEntity) {}
-
-  public convert(): UserListItem {
+  public convert(user: UserEntity): UserListItem {
     return {
-      id: this.user.id,
-      name: this.user.name,
-      age: this.user.age
+      id: user.id,
+      name: user.name,
+      age: user.age
     };
   }
 }
