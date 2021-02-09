@@ -5,11 +5,19 @@ export default class GetManyUserQueriesModel {
 
   constructor({ limit, offset, keyword }: GetManyUserQueries) {
     if (limit) {
-      this.setLimit(limit);
+      if (typeof limit === 'string') {
+        this.setLimit(parseInt(limit));
+      } else {
+        this.setLimit(limit);
+      }
     }
 
     if (offset) {
-      this.setOffset(offset);
+      if (typeof offset === 'string') {
+        this.setOffset(parseInt(offset));
+      } else {
+        this.setOffset(offset);
+      }
     }
 
     if (keyword) {

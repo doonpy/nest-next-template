@@ -5,11 +5,11 @@ declare global {
   }
 
   export interface LimitQuery {
-    limit?: number;
+    limit?: number | string;
   }
 
   export interface OffsetQuery {
-    offset?: number;
+    offset?: number | string;
   }
 
   export interface KeywordQuery {
