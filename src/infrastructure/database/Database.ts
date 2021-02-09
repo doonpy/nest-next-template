@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { DatabaseFactory } from './DatabaseFactory';
+import { MySqlFactory } from './MySqlFactory';
 
 @Module({
   imports: [
@@ -10,9 +10,7 @@ import { DatabaseFactory } from './DatabaseFactory';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        const databaseFactory = new DatabaseFactory(configService);
-
-        return databaseFactory.getMySqlFactory();
+        return new MySqlFactory(configService).getFactory();
       }
     })
   ]

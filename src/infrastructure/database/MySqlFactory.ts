@@ -10,7 +10,7 @@ enum ConnectionType {
   HEROKU
 }
 
-export class DatabaseFactory {
+export class MySqlFactory {
   constructor(private configService: ConfigService) {}
 
   private getConnection(type: ConnectionType): Partial<MysqlConnectionOptions> {
@@ -43,7 +43,7 @@ export class DatabaseFactory {
   /**
    * Get MySQL factory
    */
-  public getMySqlFactory(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
+  public getFactory(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     const applicationConfig = ApplicationConfig.getInstance();
     const nodeEnv = this.configService.get<string>(applicationConfig.getNodeEnvProp());
     const mySqlConfig = MySqlConfig.getInstance();
