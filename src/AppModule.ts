@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
 import { getEnvFilePath } from './infrastructure/configs/config-utils';
 import MySqlConfig from './infrastructure/configs/MySqlConfig';
-import Database from './infrastructure/database/Database';
+import DatabaseModule from './infrastructure/database/DatabaseModule';
 import RenderModule from './infrastructure/modules/render/RenderModule';
 import UserModule from './infrastructure/modules/UserModule';
 
@@ -15,7 +15,7 @@ import UserModule from './infrastructure/modules/UserModule';
       envFilePath: getEnvFilePath(),
       load: [ApplicationConfig.getConfig, MySqlConfig.getConfig]
     }),
-    Database,
+    DatabaseModule,
     RenderModule.forRootAsync(),
     UserModule
   ]

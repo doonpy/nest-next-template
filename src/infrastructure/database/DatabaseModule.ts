@@ -15,4 +15,4 @@ import { MySqlFactory } from './MySqlFactory';
     })
   ]
 })
-export default class Database {}
+export default class DatabaseModule {}
