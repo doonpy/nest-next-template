@@ -21,7 +21,7 @@ export default class UsersAction {
     return this.instance;
   }
 
-  private fetch(users: UserListItem[], total: number): CustomAction<UsersActionTypes, UsersState> {
+  public fetch(users: UserListItem[], total: number): CustomAction<UsersActionTypes, UsersState> {
     return {
       type: UsersActionTypes.FETCH,
       payload: { list: users, total }

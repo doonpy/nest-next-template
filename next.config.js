@@ -1,7 +1,7 @@
 const withPlugins = require('next-compose-plugins');
 const withImages = require('next-images');
 const path = require('path');
-const DIST_DIR = '../../dist/views';
+const DIST_DIR = '../../../dist/views';
 const SVG_ASSETS_DIR = './src/client/assets/svg'
 
 module.exports = withPlugins(

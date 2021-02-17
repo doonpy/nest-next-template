@@ -11,8 +11,8 @@ export default class RequestService {
       baseURL: window.location.origin,
       timeout: 20000,
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'applications/json',
+        'Content-Type': 'applications/json'
       }
     };
   }

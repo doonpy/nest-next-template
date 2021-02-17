@@ -24,7 +24,7 @@ function removeUnnecessaryFiles() {
     }
   });
 
-  const devEnvPath = 'env/dev.env';
+  const devEnvPath = 'env/dev';
   console.log(`-> Delete: ${devEnvPath}`);
   rimraf.sync(devEnvPath);
 }

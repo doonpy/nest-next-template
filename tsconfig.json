@@ -23,7 +23,7 @@
     "allowJs": false,
     "inlineSourceMap": true,
     "typeRoots": [
-      "./src/types",
+      "./src/@types",
       "node_modules/@types"
     ]
   },

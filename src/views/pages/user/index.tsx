@@ -21,7 +21,7 @@ const Page: PageWithLayout = () => {
 export const getStaticProps = wrapper.getStaticProps(({ store }) => {
   const pageAction = PageAction.getInstance();
   store.dispatch<CustomAction<PageActionTypes, PageState>>(
-    pageAction.setPageState({ title: 'User' })
+    pageAction.setPageState({ title: 'UserEntity' })
   );
 });
 

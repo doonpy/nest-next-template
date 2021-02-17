@@ -33,7 +33,7 @@ export default class UserService {
     return this.requestService.send<GetManyUsersResponse>(configs);
   }
 
-  public async createUser(user: CreateUserInput): Promise<ApiResponse<CreateUserResponse>> {
+  public async createUser(user: ICreateUserArgs): Promise<ApiResponse<CreateUserResponse>> {
     const configs: AxiosRequestConfig = {
       url: UserApiEndpoints.ROOT,
       method: 'POST',

@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "incremental": false,
     "typeRoots": [
-      "../types",
+      "../@types",
       "node_modules/@types"
     ]
   },
@@ -17,6 +17,6 @@
     "next-env.d.ts",
     "./**/*.ts",
     "./**/*.tsx",
-    "../types"
+    "../@types"
   ]
 }

@@ -1,22 +1,19 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
-import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
-import { getEnvFilePath } from './infrastructure/configs/config-utils';
-import MySqlConfig from './infrastructure/configs/MySqlConfig';
-import DatabaseModule from './infrastructure/database/DatabaseModule';
-import RenderModule from './infrastructure/modules/render/RenderModule';
-import UserModule from './infrastructure/modules/UserModule';
+import CommonModule from './modules/common/CommonModule';
+import ConfigModule from './modules/configs/ConfigModule';
+import GraphQLModule from './modules/graphql/GraphQLModule';
+import MysqlModule from './modules/mysql/MysqlModule';
+import RenderModule from './modules/render/RenderModule';
+import UserModule from './modules/users/UserModule';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: getEnvFilePath(),
-      load: [ApplicationConfig.getConfig, MySqlConfig.getConfig]
-    }),
-    DatabaseModule,
+    ConfigModule.forRoot(),
+    MysqlModule,
+    GraphQLModule.forRoot(),
     RenderModule.forRootAsync(),
+    CommonModule,
     UserModule
   ]
 })
