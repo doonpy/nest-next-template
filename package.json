@@ -37,7 +37,11 @@
     "@nestjs/core": "^7.5.1",
     "@nestjs/platform-express": "^7.5.1",
     "@nestjs/typeorm": "^7.1.5",
+    "@zeit/next-css": "^1.0.1",
+    "@zeit/next-sass": "^1.0.1",
+    "antd": "^4.14.0",
     "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
     "chalk": "^4.1.0",
     "joi": "^17.3.0",
     "morgan": "^1.10.0",
@@ -55,6 +59,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "sass": "^1.32.8",
     "typeorm": "^0.2.30"
   },
   "devDependencies": {

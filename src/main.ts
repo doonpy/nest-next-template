@@ -8,7 +8,6 @@ import morgan from 'morgan';
 
 import AppModule from './AppModule';
 import ApplicationConfig from './infrastructure/configs/ApplicationConfig';
-
 const enableCors = (app: NestExpressApplication, nodeEnv: string, port: number) => {
   if (nodeEnv === 'production') {
     app.enableCors({
