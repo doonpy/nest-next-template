@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { errorHandler } from '~/services/utils';
+
 import UsersAction from '../../redux/actions/UsersAction';
-import { errorHandler } from '../../services/utils';
 
 const UserList: React.FC = () => {
   const dispatch = useDispatch();
