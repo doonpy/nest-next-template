@@ -4,12 +4,14 @@ import UserServiceInterface from '../../applications/services/UserServiceInterfa
 import CreateUserInput from '../../domain/graphql/CreateUserInput';
 import GetUsersArgs from '../../domain/graphql/GetUsersArgs';
 import User from '../../domain/models/User';
-import UserRepositoryInterface from '../../domain/repositories/UserRepositoryInterface';
+import UserRepositoryInterface, {
+  USER_REPOSITORY_TOKEN
+} from '../../domain/repositories/UserRepositoryInterface';
 
 @Injectable()
 export default class UserService implements UserServiceInterface {
   constructor(
-    @Inject('UserRepositoryInterface') private readonly userRepository: UserRepositoryInterface
+    @Inject(USER_REPOSITORY_TOKEN) private readonly userRepository: UserRepositoryInterface
   ) {}
 
   public async create(input: CreateUserInput): Promise<User> {
