@@ -38,7 +38,7 @@ jobs:
         run: yarn install
 
       - name: Lint
-        run: yarn lint
+        run: sh scripts/ci/lint.sh
 
   check-type:
     runs-on: ubuntu-latest
@@ -69,14 +69,14 @@ jobs:
         run: yarn install
 
       - name: Check type
-        run: yarn type-check
+        run: sh scripts/ci/type-check.sh
 
   build:
     needs: [lint, check-type]
     runs-on: ubuntu-latest
     if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     env:
-      cache-dir: 'dist/views/cache'
+      cache-dir: 'dist'
 
     steps:
       - uses: actions/checkout@v2
@@ -115,6 +115,4 @@ jobs:
       - name: Build
         env:
           NODE_ENV: production
-        run: |
-          npx next telemetry disable
-          yarn build
+        run: sh scripts/ci/build.sh

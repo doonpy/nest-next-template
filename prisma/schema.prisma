@@ -11,9 +11,9 @@ generator client {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  name       String
-  age        Int
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String
+  age       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

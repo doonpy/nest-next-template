@@ -1,4 +1,4 @@
 dist
 next.config.js
 .eslintrc.js
-build
+scripts

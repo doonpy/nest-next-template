@@ -34,4 +34,7 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # Local database
-prisma/db
+/prisma/db
+
+# GraphQL Schema
+/*.gql
