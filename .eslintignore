@@ -1,4 +1,2 @@
-dist
-next.config.js
-.eslintrc.js
+**/*/dist
 scripts

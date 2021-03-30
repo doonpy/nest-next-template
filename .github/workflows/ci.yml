@@ -30,49 +30,17 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
+          key: ${{ runner.os }}_node_modules_${{ hashFiles('yarn.lock') }}_${{ hashFiles('api/yarn.lock') }}_${{ hashFiles('web/yarn.lock') }}
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install-dependencies
 
       - name: Lint
         run: sh scripts/ci/lint.sh
 
-  check-type:
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
-        env:
-          CI: true
-        with:
-          node-version: 14.x
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        id: cache-node-modules
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
-
-      - name: Install dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install
-
-      - name: Check type
-        run: sh scripts/ci/type-check.sh
-
   build:
-    needs: [lint, check-type]
+    needs: [lint]
     runs-on: ubuntu-latest
     if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     env:
@@ -91,26 +59,25 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         id: cache-node-modules
-        env:
-          cache-name: cache-node-modules
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
+          key: ${{ runner.os }}_node_modules_${{ hashFiles('yarn.lock') }}_${{ hashFiles('api/yarn.lock') }}_${{ hashFiles('web/yarn.lock') }}
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install-dependencies
 
-      - name: Cache node build artifact
+      - name: Cache API build
         uses: actions/cache@v2
-        id: cache-build-artifact
-        env:
-          cache-name: cache-build-artifact
         with:
-          path: '**/dist'
-          key: ${{ runner.os }}_${{ env.cache-name }}_${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}_${{ env.cache-name }}_
+          path: ${{ github.workspace }}/api/dist
+          key: ${{ runner.os }}_api-build{{ hashFiles('**/yarn.lock') }}
+
+      - name: Cache Web build
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/web/.next/cache
+          key: ${{ runner.os }}_web-build_${{ hashFiles('**/package-lock.json') }}
 
       - name: Build
         env:
