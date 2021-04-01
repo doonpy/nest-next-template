@@ -20,15 +20,19 @@ describe('PrismaService', () => {
   describe('onModuleInit', () => {
     it('should be connect', async () => {
       const $connectSpy = jest.spyOn(prismaService, '$connect');
+
       await app.init();
+      await app.close();
 
       expect($connectSpy).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('onModuleDestroy', () => {
-    it('should be connect', async () => {
+    it('should be disconnect', async () => {
       const $disconnectSpy = jest.spyOn(prismaService, '$disconnect');
+
+      await app.init();
       await app.close();
 
       expect($disconnectSpy).toHaveBeenCalledTimes(1);
