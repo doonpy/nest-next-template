@@ -1,6 +1,7 @@
 # compiled output
-/dist
-/node_modules
+**/*/dist
+**/*/node_modules
+.next
 
 # Logs
 logs
@@ -33,5 +34,8 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Env
-env
+# Local database
+/api/prisma/db
+
+# GraphQL Schema
+api/schema.gql
