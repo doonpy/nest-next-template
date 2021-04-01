@@ -1,10 +1,10 @@
 const fs = require('fs');
+const { readdirSync } = fs;
 const rimraf = require('rimraf');
 const { resolve } = require('path');
-const { readdir } = fs.promises;
 
-async function* getFiles(dir) {
-  const dirents = await readdir(dir, { withFileTypes: true });
+function* getFiles(dir) {
+  const dirents = readdirSync(dir, { withFileTypes: true });
   for (const dirent of dirents) {
     const res = resolve(dir, dirent.name);
     if (dirent.isDirectory()) {
@@ -15,7 +15,7 @@ async function* getFiles(dir) {
   }
 }
 
-async function removeUnnecessaryFiles() {
+function removeUnnecessaryFiles() {
   console.log('-> Remove unnecessary files...');
   const artifacts = [
     'dist',
@@ -32,7 +32,7 @@ async function removeUnnecessaryFiles() {
     'prisma'
   ];
 
-  for await (const file of getFiles(process.cwd())) {
+  for (const file of getFiles(process.cwd())) {
     if (!artifacts.some((artifact) => file.includes(artifact))) {
       console.log(`-> Delete: ${file}`);
       rimraf.sync(file);
@@ -40,11 +40,11 @@ async function removeUnnecessaryFiles() {
   }
 }
 
-(async function () {
+(function() {
   if (process.env.NODE_ENV !== 'production') {
     return;
   }
 
-  await removeUnnecessaryFiles();
+  removeUnnecessaryFiles();
   console.log('-> Done!');
 })();
