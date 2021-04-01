@@ -19,7 +19,10 @@ export default class GraphQLModule {
     return GraphQLModuleOriginal.forRoot({
       debug: process.env.NODE_ENV !== 'production',
       playground: process.env.NODE_ENV !== 'production',
-      autoSchemaFile: path.join(process.cwd(), 'schema.gql'),
+      autoSchemaFile: path.join(
+        process.cwd().includes('api') ? process.cwd() : path.join(process.cwd(), 'api'),
+        'schema.gql'
+      ),
       sortSchema: true,
       formatError: GraphQLModule.formatError
     });
