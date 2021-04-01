@@ -9,7 +9,10 @@ const DEV_DIR = 'dev';
 
 @Module({})
 export default class ConfigModule {
-  private static getEnvFilePaths(): string[] {
+  /**
+   * Get environment file paths in env directory
+   */
+  public static getEnvFilePaths(): string[] {
     const root = process.cwd().includes('api') ? process.cwd() : path.join(process.cwd(), 'api'); // For e2e testing
     let rootDir = path.join(root, ENV_ROOT_PATH, DEV_DIR);
     if (process.env.NODE_ENV === 'production') {
@@ -19,6 +22,9 @@ export default class ConfigModule {
     return fs.readdirSync(rootDir).map((file) => path.join(rootDir, file));
   }
 
+  /**
+   * Initialize module
+   */
   public static forRoot(): DynamicModule {
     return NestConfigModule.forRoot({
       isGlobal: true,

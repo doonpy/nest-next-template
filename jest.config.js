@@ -1,6 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
-  roots: ['api', 'web'],
+  clearMocks: true,
+  roots: ['<rootDir>/api/src/', '<rootDir>/web/'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },

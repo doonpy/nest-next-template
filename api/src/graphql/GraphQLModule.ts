@@ -5,7 +5,10 @@ import path from 'path';
 
 @Module({})
 export default class GraphQLModule {
-  private static formatError(error: GraphQLError): GraphQLError | GraphQLFormattedError {
+  /**
+   * Format GraphQL error
+   */
+  public static formatError(error: GraphQLError): GraphQLError | GraphQLFormattedError {
     if (process.env.NODE_ENV !== 'production') {
       return error;
     }
@@ -15,6 +18,9 @@ export default class GraphQLModule {
     };
   }
 
+  /**
+   * Initialize module
+   */
   public static forRoot(): DynamicModule {
     return GraphQLModuleOriginal.forRoot({
       debug: process.env.NODE_ENV !== 'production',
