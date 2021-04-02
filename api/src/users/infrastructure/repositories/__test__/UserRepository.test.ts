@@ -1,23 +1,27 @@
+import { Test } from '@nestjs/testing';
+
 import { Prisma } from '../../../../../prisma/generated/test-client';
-import { PrismaService } from '../../../../common/services/PrismaService';
-import { TestingPrismaService } from '../../../../test_helpers/services/TestingPrismaService';
+import PrismaService from '../../../../../test_helpers/services/PrismaService';
+import UserRepositoryInterface, {
+  GetUsersParams,
+  USER_REPOSITORY_TOKEN
+} from '../../../domain/repositories/UserRepositoryInterface';
 import UserRepository from '../UserRepository';
 
 describe('UserRepository', () => {
-  let prismaService: TestingPrismaService;
-  let userRepository: UserRepository;
-  const mockUserData: Prisma.UserCreateInput = { name: 'foo', age: 1 };
+  let userRepository: UserRepositoryInterface;
 
-  beforeEach(() => {
-    prismaService = new TestingPrismaService();
-    userRepository = new UserRepository((prismaService as unknown) as PrismaService);
-  });
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      providers: [{ provide: USER_REPOSITORY_TOKEN, useClass: UserRepository }, PrismaService]
+    }).compile();
 
-  afterEach(async () => {
-    await prismaService.user.deleteMany({ where: { name: mockUserData.name } });
+    userRepository = moduleRef.get<UserRepositoryInterface>(USER_REPOSITORY_TOKEN);
   });
 
   describe('create', () => {
+    const mockUserData: Prisma.UserCreateInput = { name: 'foo', age: 1 };
+
     it('should create a user in database', async () => {
       const user = await userRepository.create(mockUserData);
 
@@ -27,12 +31,63 @@ describe('UserRepository', () => {
   });
 
   describe('getUsers', () => {
-    it('should get users from database', async () => {
-      const user = await userRepository.create(mockUserData);
+    const mockUsersData: Prisma.UserCreateInput[] = [
+      { name: 'foo', age: 1 },
+      { name: 'baz', age: 2 },
+      { name: 'bar', age: 3 },
+      { name: 'zef', age: 4 },
+      { name: 'xyz', age: 5 }
+    ];
 
-      const users = await userRepository.getUsers({});
-
-      expect(users).toEqual([user]);
+    beforeAll(async () => {
+      for (const user of mockUsersData) {
+        await userRepository.create(user);
+      }
     });
+
+    const cases: Array<[string, GetUsersParams, Prisma.UserCreateInput[]]> = [
+      ['amount', { take: 1 }, [{ name: 'foo', age: 1 }]],
+      [
+        'skip',
+        { skip: 2 },
+        [
+          { name: 'bar', age: 3 },
+          { name: 'zef', age: 4 },
+          { name: 'xyz', age: 5 }
+        ]
+      ],
+      ['where', { where: { name: 'xyz' } }, [{ name: 'xyz', age: 5 }]],
+      [
+        'cursor',
+        { cursor: { id: 4 } },
+        [
+          { name: 'zef', age: 4 },
+          { name: 'xyz', age: 5 }
+        ]
+      ],
+      [
+        'order by name',
+        { orderBy: { name: 'asc' } },
+        [
+          { name: 'bar', age: 3 },
+          { name: 'baz', age: 2 },
+          { name: 'foo', age: 1 },
+          { name: 'xyz', age: 5 },
+          { name: 'zef', age: 4 }
+        ]
+      ]
+    ];
+
+    it.each(cases)(
+      'should get users from database with correct %s',
+      async (explain, params, expected) => {
+        const users = await userRepository.getUsers(params);
+
+        users.forEach((user, index) => {
+          expect(user.name).toEqual(expected[index].name);
+          expect(user.age).toEqual(expected[index].age);
+        });
+      }
+    );
   });
 });

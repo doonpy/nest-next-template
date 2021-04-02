@@ -2,7 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import AppModule from '../../../AppModule';
-import { PrismaService } from '../PrismaService';
+import PrismaService from '../../../../test_helpers/services/PrismaService';
+import TestHelpersModule from '../../../../test_helpers/TestHelpersModule';
 
 describe('PrismaService', () => {
   let app: INestApplication;
@@ -10,7 +11,7 @@ describe('PrismaService', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule]
+      imports: [AppModule, TestHelpersModule]
     }).compile();
 
     app = moduleFixture.createNestApplication();

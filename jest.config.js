@@ -21,7 +21,8 @@ module.exports = {
   ],
   coverageDirectory: '<rootDir>/coverage/',
   collectCoverageFrom: [
-    '<rootDir>/**/src/**/*.{ts,tsx}'
+    '<rootDir>/**/src/**/*.{ts,tsx}',
+    '!<rootDir>/**/src/**/test_helpers/**/*.{ts,tsx}'
   ],
   coverageReporters: ['text-summary', 'json-summary', 'html'],
 }
