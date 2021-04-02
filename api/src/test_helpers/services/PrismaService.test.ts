@@ -1,9 +1,9 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
-import { PrismaClient } from '../../../prisma/generated/client';
+import { PrismaClient } from '../../../prisma/generated/test-client';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaServiceTest extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   /**
    * Create connect when common module initialize
    */

@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "yarn prisma:generate && yarn prisma:deploy",
+    "prisma:generate": "yarn prisma generate && yarn prisma generate --schema ./prisma/schema.test.prisma",
+    "prisma:deploy": "yarn prisma migrate deploy && yarn prisma migrate deploy --schema ./prisma/schema.test.prisma",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

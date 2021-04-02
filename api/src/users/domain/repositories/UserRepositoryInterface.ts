@@ -1,4 +1,4 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma, User } from '../../../../prisma/generated/client';
 
 export const USER_REPOSITORY_TOKEN = Symbol('USER_REPOSITORY_TOKEN');
 

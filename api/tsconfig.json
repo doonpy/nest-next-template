@@ -8,7 +8,6 @@
     "allowSyntheticDefaultImports": true,
     "target": "es6",
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
     "esModuleInterop": true,
     "inlineSourceMap": true
@@ -20,6 +19,8 @@
     "node_modules",
     "dist",
     "test",
-    "**/*spec.ts"
+    "src/test_helpers",
+    "**/*spec.ts",
+    "**/*test.ts"
   ]
 }

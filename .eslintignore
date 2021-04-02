@@ -1,2 +1,3 @@
 **/*/dist
 scripts
+api/prisma/generated
