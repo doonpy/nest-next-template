@@ -67,5 +67,18 @@ describe('ValidationService', () => {
         expect(error).toBeInstanceOf(BadRequestException);
       }
     });
+
+    const cases: Array<[string, ValidationError[]]> = [
+      ['empty', [{ property: 'foo', constraints: {} }]],
+      ['empty', [{ property: 'foo' }]]
+    ];
+
+    it.each(cases)('should return undefined when errors is %s', async (explain, errors) => {
+      jest.spyOn(ClassValidator, 'validate').mockReturnValue(Promise.resolve(errors));
+
+      const result = await validationService.validate<MockClass>(mockValue, MockClass);
+
+      expect(result).toBeUndefined();
+    });
   });
 });
