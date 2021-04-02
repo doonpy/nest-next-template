@@ -1,12 +1,19 @@
+'use strict';
+
+const baseConfig = require('./jest.config.base')
+
 module.exports = {
-  preset: 'ts-jest',
-  clearMocks: true,
-  roots: ['<rootDir>/api/src/', '<rootDir>/web/'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+  ...baseConfig,
+  projects: [
+    '<rootDir>/**/jest.config.app.js',
+  ],
+  moduleNameMapper: {
+    '.json$': 'identity-obj-proxy',
   },
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
-  moduleFileExtensions: ['js', 'ts', 'tsx'],
-  coverageReporters: ['text-summary', 'json-summary', 'html'],
-  verbose: true
-};
+  moduleDirectories: [
+    'node_modules',
+  ],
+  snapshotSerializers: [
+    'enzyme-to-json/serializer',
+  ],
+}

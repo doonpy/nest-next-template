@@ -1,15 +1,15 @@
 import { Prisma } from '../../../../../prisma/generated/test-client';
 import { PrismaService } from '../../../../common/services/PrismaService';
-import { PrismaServiceTest } from '../../../../test_helpers/services/PrismaService.test';
+import { TestingPrismaService } from '../../../../test_helpers/services/TestingPrismaService';
 import UserRepository from '../UserRepository';
 
 describe('UserRepository', () => {
-  let prismaService: PrismaServiceTest;
+  let prismaService: TestingPrismaService;
   let userRepository: UserRepository;
   const mockUserData: Prisma.UserCreateInput = { name: 'foo', age: 1 };
 
   beforeEach(() => {
-    prismaService = new PrismaServiceTest();
+    prismaService = new TestingPrismaService();
     userRepository = new UserRepository((prismaService as unknown) as PrismaService);
   });
 
