@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import AppModule from '../../../AppModule';
 import PrismaService from '../../../../test_helpers/services/PrismaService';
 import TestHelpersModule from '../../../../test_helpers/TestHelpersModule';
+import AppModule from '../../../AppModule';
 
 describe('PrismaService', () => {
   let app: INestApplication;
