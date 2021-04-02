@@ -1,2 +1,5 @@
 **/*/dist
 scripts
+api/prisma/generated
+node_modules
+**/node_modules

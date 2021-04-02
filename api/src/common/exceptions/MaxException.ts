@@ -5,6 +5,6 @@ export default class MaxException implements ExceptionInterface {
 
   /** @inheritDoc **/
   public getMessage(): string {
-    return `$property must not have a value greater than ${this.maxValue}.`;
+    return `'$property' must not have a value greater than ${this.maxValue}.`;
   }
 }

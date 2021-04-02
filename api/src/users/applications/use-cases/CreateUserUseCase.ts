@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 
+import { User } from '../../../../prisma/generated/client';
 import ValidationService from '../../../common/services/ValidationService';
 import CreateUserInput from '../../domain/graphql/CreateUserInput';
 import UserServiceInterface, { USER_SERVICE_TOKEN } from '../services/UserServiceInterface';

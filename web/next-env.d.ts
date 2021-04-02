@@ -1,6 +1,6 @@
 import 'next';
 import 'next/types/global';
-import 'libs/**/*.d.ts';
+import 'src/libs/**/*.d.ts';
 
 import { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
