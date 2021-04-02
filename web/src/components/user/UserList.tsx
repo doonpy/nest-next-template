@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 
-import CreateUser from '@/components/user/CreateUser';
-import UserService from '@/libs/user/UserService';
+import UserService from '../../libs/user/UserService';
+import CreateUser from './CreateUser';
 
 const UserList: React.VFC = () => {
   const userService = new UserService();

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
 
-import UserService from '@/libs/user/UserService';
+import UserService from '../../libs/user/UserService';
 
 const CreateUser: React.VFC = () => {
   const userService = new UserService();

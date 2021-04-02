@@ -1,7 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import React, { useMemo } from 'react';
 
-import ApolloClient from '@/libs/graphql/ApolloClient';
+import ApolloClient from '../libs/graphql/ApolloClient';
 
 export function useApollo(initialState: any) {
   return useMemo(() => ApolloClient.getInstance(initialState), [initialState]);
