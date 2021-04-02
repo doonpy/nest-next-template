@@ -1,8 +1,9 @@
 #!/bin/bash
 set -e
 
-printf "1. Generate Prisma types"
-npx prisma generate --schema api/prisma/schema.prisma
+printf "=> Generate prisma types"
+yarn --cwd api prisma generate --schema ./prisma/schema.prisma
+yarn --cwd api prisma generate --schema ./prisma/schema.test.prisma
 
-printf "2. Lint"
+printf "=> Lint"
 yarn lint

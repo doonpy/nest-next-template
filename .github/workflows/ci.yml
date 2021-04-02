@@ -39,8 +39,45 @@ jobs:
       - name: Lint
         run: sh scripts/ci/lint.sh
 
+  unit-test:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[skip-ci]')"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        env:
+          CI: true
+        with:
+          node-version: 14.x
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        id: cache-node-modules
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}_node_modules_${{ hashFiles('yarn.lock') }}_${{ hashFiles('api/yarn.lock') }}_${{ hashFiles('web/yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn install-dependencies
+
+      - name: Unit test
+        run: sh scripts/ci/unit-test.sh
+
+      - name: Upload coverage to GitHub pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          publish_dir: ./coverage
+          enable_jekyll: false
+
   build:
-    needs: [lint]
+    needs: [lint, unit-test]
     runs-on: ubuntu-latest
     if: "!contains(github.event.commits[0].message, '[skip-ci]')"
     env:
