@@ -10,9 +10,6 @@ module.exports = {
     '<rootDir>/api/jest.config.js',
     '<rootDir>/web/jest.config.js',
   ],
-  moduleNameMapper: {
-    '.json$': 'identity-obj-proxy',
-  },
   moduleDirectories: [
     'node_modules',
   ],

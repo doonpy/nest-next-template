@@ -12,6 +12,5 @@ module.exports = {
   name: appName,
   displayName: appName,
   testURL: 'http://localhost:3000/',
-  setupFiles: [`<rootDir>/test_helpers/setup.ts`],
-  setupFilesAfterEnv: [`<rootDir>/test_helpers/after-setup.ts`]
+  setupFilesAfterEnv: ['<rootDir>/test_helpers/after-setup.ts']
 };

@@ -1,7 +1,8 @@
 import { Test } from '@nestjs/testing';
 
-import { Prisma } from '../../../../../prisma/generated/test-client';
+import { Prisma, User } from '../../../../../prisma/generated/test-client';
 import PrismaService from '../../../../../test_helpers/services/PrismaService';
+import importSqlFile from '../../../../../test_helpers/utils/importSqlFile';
 import UserRepositoryInterface, {
   GetUsersParams,
   USER_REPOSITORY_TOKEN
@@ -10,6 +11,7 @@ import UserRepository from '../UserRepository';
 
 describe('UserRepository', () => {
   let userRepository: UserRepositoryInterface;
+  let prismaService: PrismaService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -17,6 +19,7 @@ describe('UserRepository', () => {
     }).compile();
 
     userRepository = moduleRef.get<UserRepositoryInterface>(USER_REPOSITORY_TOKEN);
+    prismaService = moduleRef.get<PrismaService>(PrismaService);
   });
 
   describe('create', () => {
@@ -31,50 +34,58 @@ describe('UserRepository', () => {
   });
 
   describe('getUsers', () => {
-    const mockUsersData: Prisma.UserCreateInput[] = [
-      { name: 'foo', age: 1 },
-      { name: 'baz', age: 2 },
-      { name: 'bar', age: 3 },
-      { name: 'zef', age: 4 },
-      { name: 'xyz', age: 5 }
+    const mockUsersData: User[] = [
+      {
+        id: 1,
+        name: 'foo',
+        age: 1,
+        createdAt: new Date(1619888400000),
+        updatedAt: new Date(1619888400000)
+      },
+      {
+        id: 2,
+        name: 'baz',
+        age: 2,
+        createdAt: new Date(1619888400000),
+        updatedAt: new Date(1619888400000)
+      },
+      {
+        id: 3,
+        name: 'bar',
+        age: 3,
+        createdAt: new Date(1619888400000),
+        updatedAt: new Date(1619888400000)
+      },
+      {
+        id: 4,
+        name: 'zef',
+        age: 4,
+        createdAt: new Date(1619888400000),
+        updatedAt: new Date(1619888400000)
+      },
+      {
+        id: 5,
+        name: 'xyz',
+        age: 5,
+        createdAt: new Date(1619888400000),
+        updatedAt: new Date(1619888400000)
+      }
     ];
 
     beforeAll(async () => {
-      for (const user of mockUsersData) {
-        await userRepository.create(user);
-      }
+      await prismaService.user.deleteMany();
+      await importSqlFile(__dirname, `getUsers.sql`);
     });
 
-    const cases: Array<[string, GetUsersParams, Prisma.UserCreateInput[]]> = [
-      ['amount', { take: 1 }, [{ name: 'foo', age: 1 }]],
-      [
-        'skip',
-        { skip: 2 },
-        [
-          { name: 'bar', age: 3 },
-          { name: 'zef', age: 4 },
-          { name: 'xyz', age: 5 }
-        ]
-      ],
-      ['where', { where: { name: 'xyz' } }, [{ name: 'xyz', age: 5 }]],
-      [
-        'cursor',
-        { cursor: { id: 4 } },
-        [
-          { name: 'zef', age: 4 },
-          { name: 'xyz', age: 5 }
-        ]
-      ],
+    const cases: Array<[string, GetUsersParams, User[]]> = [
+      ['amount', { take: 1 }, [mockUsersData[0]]],
+      ['skip', { skip: 2 }, [mockUsersData[2], mockUsersData[3], mockUsersData[4]]],
+      ['where', { where: { name: 'xyz' } }, [mockUsersData[4]]],
+      ['cursor', { cursor: { id: 4 } }, [mockUsersData[3], mockUsersData[4]]],
       [
         'order by name',
         { orderBy: { name: 'asc' } },
-        [
-          { name: 'bar', age: 3 },
-          { name: 'baz', age: 2 },
-          { name: 'foo', age: 1 },
-          { name: 'xyz', age: 5 },
-          { name: 'zef', age: 4 }
-        ]
+        [mockUsersData[2], mockUsersData[1], mockUsersData[0], mockUsersData[4], mockUsersData[3]]
       ]
     ];
 
@@ -83,9 +94,10 @@ describe('UserRepository', () => {
       async (explain, params, expected) => {
         const users = await userRepository.getUsers(params);
 
+        expect(users).toHaveLength(expected.length);
+
         users.forEach((user, index) => {
-          expect(user.name).toEqual(expected[index].name);
-          expect(user.age).toEqual(expected[index].age);
+          expect(user).toMatchObject(expected[index]);
         });
       }
     );

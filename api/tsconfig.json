@@ -19,6 +19,8 @@
     "node_modules",
     "dist",
     "test",
-    "test_helpers"
+    "test_helpers",
+    "**/*spec.ts",
+    "**/*test.ts"
   ]
 }

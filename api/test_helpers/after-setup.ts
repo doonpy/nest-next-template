@@ -1,9 +1,9 @@
-import { exec } from 'child_process';
+import PrismaService from './services/PrismaService';
 
-beforeAll(() => {
-  exec('yarn prisma migrate deploy --schema ./prisma/schema.test.prisma');
-});
+afterAll(async () => {
+  const primaService = new PrismaService();
+  const propertyNames = Object.getOwnPropertyNames(primaService);
+  const modelNames = propertyNames.filter((propertyName) => !propertyName.startsWith('_'));
 
-afterAll(() => {
-  exec('yarn prisma migrate reset --schema ./prisma/schema.test.prisma --force');
+  await Promise.all(modelNames.map((model) => primaService[model].deleteMany()));
 });
