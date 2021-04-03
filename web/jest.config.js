@@ -11,5 +11,15 @@ module.exports = {
   moduleFileExtensions: ['js', 'ts', 'tsx'],
   name: packageName,
   displayName: packageName,
-  testURL: 'http://localhost:3001/'
+  testURL: 'http://localhost:3001/',
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+  setupFilesAfterEnv: ['<rootDir>/test_helpers/enzyme.ts'],
+  moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      '<rootDir>/test_helpers/__mocks__/mocks.ts',
+    '\\.(css|less|scss)$': '<rootDir>/test_helpers/__mocks__/mocks.ts'
+  },
+  snapshotSerializers: ['enzyme-to-json/serializer']
 };

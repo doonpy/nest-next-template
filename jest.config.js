@@ -13,9 +13,6 @@ module.exports = {
   moduleDirectories: [
     'node_modules',
   ],
-  snapshotSerializers: [
-    'enzyme-to-json/serializer',
-  ],
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['text-summary', 'json-summary', 'html'],
   collectCoverageFrom: [
