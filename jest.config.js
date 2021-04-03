@@ -17,9 +17,9 @@ module.exports = {
     'enzyme-to-json/serializer',
   ],
   coverageDirectory: '<rootDir>/coverage/',
+  coverageReporters: ['text-summary', 'json-summary', 'html'],
   collectCoverageFrom: [
     '<rootDir>/**/src/**/*.{ts,tsx}',
-    '!<rootDir>/**/src/**/test_helpers/**/*.{ts,tsx}'
-  ],
-  coverageReporters: ['text-summary', 'json-summary', 'html'],
+    '!<rootDir>/**/main.ts'
+  ]
 }
