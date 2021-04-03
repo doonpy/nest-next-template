@@ -13,7 +13,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e-api": "jest --config ./api/test/jest-e2e.json"
+    "test:e2e-api": "jest --config ./api/test/jest-e2e.json",
+    "generate-badge": "istanbul-badges-readme && git add 'README.md'"
   },
   "engines": {
     "node": "^14.15.x",
@@ -46,7 +47,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint && istanbul-badges-readme && git add 'README.md'"
+      "pre-commit": "yarn lint"
     }
   }
 }
