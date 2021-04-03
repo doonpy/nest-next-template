@@ -1,4 +1,4 @@
-export default class Id {
+export default class UserId {
   constructor(private _value: number) {}
 
   get value(): number {

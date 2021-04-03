@@ -19,6 +19,7 @@
     "node_modules",
     "dist",
     "test",
+    "prisma",
     "test_helpers",
     "**/*spec.ts",
     "**/*test.ts"

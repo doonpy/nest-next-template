@@ -10,4 +10,4 @@ yarn --cwd api prisma migrate deploy --schema ./prisma/schema.prisma
 yarn --cwd api prisma migrate deploy --schema ./prisma/schema.test.prisma
 
 printf "=> Unit test"
-yarn jest --coverage --detectOpenHandles --forceExit
+yarn jest --coverage --detectOpenHandles

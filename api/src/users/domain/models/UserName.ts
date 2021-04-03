@@ -1,4 +1,4 @@
-export default class Name {
+export default class UserName {
   constructor(private _value: string) {}
 
   get value(): string {

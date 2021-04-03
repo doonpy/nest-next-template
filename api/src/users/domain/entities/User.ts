@@ -1,7 +1,7 @@
 import UserType from '../graphql/UserType';
-import Age from '../models/Age';
-import Id from '../models/Id';
-import Name from '../models/Name';
+import UserAge from '../models/UserAge';
+import UserId from '../models/UserId';
+import UserName from '../models/UserName';
 
 export interface UserConstructor {
   id: number;
@@ -12,41 +12,41 @@ export interface UserConstructor {
 }
 
 export default class User {
-  private _id: Id;
-  private _name: Name;
-  private _age: Age;
+  private _id: UserId;
+  private _name: UserName;
+  private _age: UserAge;
   private _createdAt: Date;
   private _updatedAt: Date;
 
   constructor({ id, name, age, createdAt, updatedAt }: UserConstructor) {
-    this._id = new Id(id);
-    this._name = new Name(name);
-    this._age = new Age(age);
+    this._id = new UserId(id);
+    this._name = new UserName(name);
+    this._age = new UserAge(age);
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
 
-  get id(): Id {
+  get id(): UserId {
     return this._id;
   }
 
-  set id(value: Id) {
+  set id(value: UserId) {
     this._id = value;
   }
 
-  get name(): Name {
+  get name(): UserName {
     return this._name;
   }
 
-  set name(value: Name) {
+  set name(value: UserName) {
     this._name = value;
   }
 
-  get age(): Age {
+  get age(): UserAge {
     return this._age;
   }
 
-  set age(value: Age) {
+  set age(value: UserAge) {
     this._age = value;
   }
 

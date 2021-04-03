@@ -6,16 +6,21 @@ import TestHelpersModule from '../../../../test_helpers/TestHelpersModule';
 import AppModule from '../../../AppModule';
 
 describe('PrismaService', () => {
+  let moduleRef: TestingModule;
   let app: INestApplication;
   let prismaService: PrismaService;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       imports: [AppModule, TestHelpersModule]
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication();
     prismaService = app.get(PrismaService);
+  });
+
+  afterAll(async () => {
+    await moduleRef.close();
   });
 
   describe('onModuleInit', () => {
