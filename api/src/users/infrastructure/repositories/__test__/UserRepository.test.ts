@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 
 import { Prisma, User } from '../../../../../prisma/generated/test-client';
 import PrismaService from '../../../../../test_helpers/services/PrismaService';
@@ -10,16 +10,21 @@ import UserRepositoryInterface, {
 import UserRepository from '../UserRepository';
 
 describe('UserRepository', () => {
+  let moduleRef: TestingModule;
   let userRepository: UserRepositoryInterface;
   let prismaService: PrismaService;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [{ provide: USER_REPOSITORY_TOKEN, useClass: UserRepository }, PrismaService]
     }).compile();
 
     userRepository = moduleRef.get<UserRepositoryInterface>(USER_REPOSITORY_TOKEN);
     prismaService = moduleRef.get<PrismaService>(PrismaService);
+  });
+
+  afterAll(async () => {
+    await moduleRef.close();
   });
 
   describe('create', () => {

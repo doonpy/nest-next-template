@@ -5,12 +5,16 @@ import UserName from '../../models/UserName';
 import User from '../User';
 
 describe('User', () => {
-  const user: User = new User({
-    id: 1,
-    name: 'foo',
-    age: 2,
-    createdAt: new Date(2021, 4, 3),
-    updatedAt: new Date(2021, 4, 4)
+  let user: User;
+
+  beforeEach(() => {
+    user = new User({
+      id: 1,
+      name: 'foo',
+      age: 2,
+      createdAt: new Date(2021, 4, 3),
+      updatedAt: new Date(2021, 4, 4)
+    });
   });
 
   describe('get id', () => {
