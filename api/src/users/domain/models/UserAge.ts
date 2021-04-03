@@ -1,4 +1,4 @@
-export default class Age {
+export default class UserAge {
   constructor(private _value: number) {}
 
   get value(): number {

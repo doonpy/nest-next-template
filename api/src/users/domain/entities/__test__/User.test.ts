@@ -1,7 +1,7 @@
 import UserType from '../../graphql/UserType';
-import Age from '../../models/Age';
-import Id from '../../models/Id';
-import Name from '../../models/Name';
+import UserAge from '../../models/UserAge';
+import UserId from '../../models/UserId';
+import UserName from '../../models/UserName';
 import User from '../User';
 
 describe('User', () => {
@@ -15,7 +15,7 @@ describe('User', () => {
 
   describe('get id', () => {
     it('should get correct id value', () => {
-      const expectedId = new Id(1);
+      const expectedId = new UserId(1);
 
       const id = user.id;
 
@@ -25,7 +25,7 @@ describe('User', () => {
 
   describe('set id', () => {
     it('should set correct id value', () => {
-      const setId = new Id(2);
+      const setId = new UserId(2);
 
       user.id = setId;
 
@@ -35,7 +35,7 @@ describe('User', () => {
 
   describe('get name', () => {
     it('should get correct name value', () => {
-      const expectedName = new Name(user.name.value);
+      const expectedName = new UserName(user.name.value);
 
       const name = user.name;
 
@@ -45,7 +45,7 @@ describe('User', () => {
 
   describe('set name', () => {
     it('should set correct name value', () => {
-      const name = new Name('baz');
+      const name = new UserName('baz');
 
       user.name = name;
 
@@ -55,7 +55,7 @@ describe('User', () => {
 
   describe('get age', () => {
     it('should get correct age value', () => {
-      const expectedAge = new Age(user.age.value);
+      const expectedAge = new UserAge(user.age.value);
 
       const age = user.age;
 
@@ -65,7 +65,7 @@ describe('User', () => {
 
   describe('set age', () => {
     it('should set correct age value', () => {
-      const age = new Age(3);
+      const age = new UserAge(3);
 
       user.age = age;
 
@@ -110,16 +110,18 @@ describe('User', () => {
   });
 
   describe('convertToGraphql', () => {
-    const expected: UserType = {
-      id: 1,
-      name: 'foo',
-      age: 2,
-      createdAt: new Date(2021, 4, 3),
-      updatedAt: new Date(2021, 4, 4)
-    };
+    it('should return correct value', () => {
+      const expected: UserType = {
+        id: 1,
+        name: 'foo',
+        age: 2,
+        createdAt: new Date(2021, 4, 3),
+        updatedAt: new Date(2021, 4, 4)
+      };
 
-    const result = user.convertToGraphql();
+      const result = user.convertToGraphql();
 
-    expect(result).toMatchObject(expected);
+      expect(result).toMatchObject(expected);
+    });
   });
 });
