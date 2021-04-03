@@ -21,5 +21,10 @@ module.exports = {
       '<rootDir>/test_helpers/__mocks__/mocks.ts',
     '\\.(css|less|scss)$': '<rootDir>/test_helpers/__mocks__/mocks.ts'
   },
-  snapshotSerializers: ['enzyme-to-json/serializer']
+  snapshotSerializers: ['enzyme-to-json/serializer'],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.test.json'
+    }
+  }
 };
