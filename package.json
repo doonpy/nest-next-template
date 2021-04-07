@@ -5,15 +5,21 @@
   "author": "Poon Nguyen",
   "private": true,
   "license": "UNLICENSED",
+  "workspaces": [
+    "api",
+    "web"
+  ],
   "scripts": {
-    "postinstall": "husky install",
+    "postinstall": "husky install && yarn prisma:generate && yarn prisma:deploy",
+    "prisma:generate": "yarn workspace api prisma generate && yarn workspace api prisma generate --schema ./prisma/schema.test.prisma",
+    "prisma:deploy": "yarn workspace api prisma migrate deploy && yarn workspace api prisma migrate deploy --schema ./prisma/schema.test.prisma",
     "lint": "eslint --fix --max-warnings=0 --ext .ts,.tsx .",
-    "install-dependencies": "yarn install && yarn --cwd ./api install && yarn --cwd ./web install",
+    "build": "yarn workspaces run build",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e-api": "E2E_TEST=true jest --config ./api/test/jest-e2e.json",
+    "test:e2e-api": "IS_TEST=true jest --config ./api/test/jest-e2e.json",
     "generate-badge": "istanbul-badges-readme && git add 'README.md'"
   },
   "engines": {

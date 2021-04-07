@@ -13,7 +13,7 @@ export default class ConfigModule {
    * Get environment file paths in env directory
    */
   public static getEnvFilePaths(): string[] {
-    const root = process.env.E2E_TEST ? path.join(process.cwd(), 'api') : process.cwd(); // For e2e testing
+    const root = Boolean(process.env.IS_TEST) ? path.join(process.cwd(), 'api') : process.cwd(); // For e2e testing
     let rootDir = path.join(root, ENV_ROOT_PATH, DEV_DIR);
     if (process.env.NODE_ENV === 'production') {
       rootDir = path.join(root, ENV_ROOT_PATH, PROD_DIR);

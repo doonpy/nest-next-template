@@ -34,10 +34,14 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install-dependencies
+        run: yarn install
+
+      - name: Generate Prisma artifacts
+        if: steps.cache-node-modules.outputs.cache-hit == 'true'
+        run: yarn prisma:generate
 
       - name: Lint
-        run: sh scripts/ci/lint.sh
+        run: yarn lint
 
   unit-test:
     runs-on: ubuntu-latest
@@ -64,10 +68,16 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install-dependencies
+        run: yarn install
+
+      - name: Generate Prisma artifacts
+        if: steps.cache-node-modules.outputs.cache-hit == 'true'
+        run: yarn prisma:generate && yarn prisma:deploy
 
       - name: Unit test
-        run: sh scripts/ci/unit-test.sh
+        env:
+          IS_TEST: true
+        run: yarn jest --coverage --detectOpenHandles
 
       - name: Upload coverage to GitHub pages
         if: success() && github.ref == 'refs/heads/master'
@@ -103,9 +113,13 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install-dependencies
+        run: yarn install
+
+      - name: Generate Prisma artifacts
+        if: steps.cache-node-modules.outputs.cache-hit == 'true'
+        run: yarn prisma:generate && yarn prisma:deploy
 
       - name: Build
         env:
           NODE_ENV: production
-        run: sh scripts/ci/build.sh
+        run: yarn workspaces run build
