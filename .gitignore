@@ -42,3 +42,6 @@ api/schema.gql
 
 # Prisma client
 api/prisma/generated/
+
+# Husky
+.husky
